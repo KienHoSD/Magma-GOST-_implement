@@ -29,11 +29,17 @@ add_executable(benchmark_magma
 )
 
 # Add the executable target for the binary `testspeed_magma`
-add_executable(testspeed_magma
-    benchmark/testspeed_magma.cpp
+add_executable(testspeed_singlethread_magma
+    benchmark/testspeed_singlethread_magma.cpp
+)
+
+# Add the executable target for the binary `testspeed_magma`
+add_executable(testspeed_multithread_magma
+    benchmark/testspeed_multithread_magma.cpp
 )
 
 # Link the executable with the library
 target_link_libraries(test_magma PRIVATE magma_lib)
 target_link_libraries(benchmark_magma PRIVATE magma_lib)
-target_link_libraries(testspeed_magma PRIVATE magma_lib)
+target_link_libraries(testspeed_singlethread_magma PRIVATE magma_lib)
+target_link_libraries(testspeed_multithread_magma PRIVATE magma_lib)

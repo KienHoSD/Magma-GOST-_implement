@@ -34,7 +34,7 @@ uint32_t Magma::f(const uint32_t &Ri, const uint32_t &Ki){
   return res3;
 }
 
-void Magma::inner_encrypt_decrypt(const vector<uint8_t> &input, vector<uint8_t> &output, bool is_encrypt){
+void Magma::inner_encrypt_decrypt(const vector<uint8_t> &input, vector<uint8_t> &output, const bool &is_encrypt){
   if (input.size() % NUM_OF_BLOCKBYTE != 0){
     throw std::runtime_error("Input length must be a multiple of 8");
     return;
@@ -86,6 +86,51 @@ void Magma::encrypt(const vector<uint8_t> &plaintext, vector<uint8_t> &ciphertex
 
 void Magma::decrypt(const vector<uint8_t> &ciphertext, vector<uint8_t> &plaintext){
   inner_encrypt_decrypt(ciphertext,plaintext,false);
+}
+
+void Magma::inner_encrypt_decrypt_parallel(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext, const unsigned int &numThreads, const bool &is_encrypt){
+  // Ensure ciphertext is the same size as plaintext
+  ciphertext.resize(plaintext.size());
+
+  // Calculate the size of each chunk (must be a multiple of block size)
+  unsigned int chunkSize = (plaintext.size() / numThreads) / NUM_OF_BLOCKBYTE * NUM_OF_BLOCKBYTE;
+
+  // Create a vector of futures to store the results of the threads
+  std::vector<std::future<void>> futures;
+
+  // Split the work among threads
+  for (unsigned int i = 0; i < numThreads; ++i)
+  {
+    unsigned int start = i * chunkSize;
+    unsigned int end = (i == numThreads - 1) ? plaintext.size() : start + chunkSize;
+
+    // Launch a thread to encrypt a chunk of data
+    futures.push_back(std::async(std::launch::async, [this, &plaintext, &ciphertext, start, end, is_encrypt]()  // Capture is_encrypt in the lambda's capture list
+    {
+      Magma threadLocalMagma(this->key_array);  // Each thread creates its own instance of Magma
+      std::vector<uint8_t> chunkOutput(end - start);
+      threadLocalMagma.inner_encrypt_decrypt(
+          std::vector<uint8_t>(plaintext.begin() + start, plaintext.begin() + end),
+          chunkOutput, 
+          is_encrypt  // Encrypt mode
+      );
+      std::copy(chunkOutput.begin(), chunkOutput.end(), ciphertext.begin() + start); 
+    }));
+  }
+
+  // Wait for all threads to finish
+  for (auto &future : futures)
+  {
+    future.get();
+  }
+}
+
+void Magma::encryptParallel(const vector<uint8_t> &plaintext, vector<uint8_t> &ciphertext, unsigned int numThreads){
+  inner_encrypt_decrypt_parallel(plaintext,ciphertext,numThreads,true);
+}
+
+void Magma::decryptParallel(const vector<uint8_t> &ciphertext, vector<uint8_t> &plaintext, unsigned int numThreads){
+  inner_encrypt_decrypt_parallel(ciphertext,plaintext,numThreads,false);
 }
 
 void Magma::set_sbox(const vector<vector<uint8_t>> &s_box){

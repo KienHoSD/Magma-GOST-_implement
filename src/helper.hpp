@@ -7,6 +7,8 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+#include <thread>
+#include <future>
 
 const int NUM_OF_BITSPERBYTE = 8;
 const int NUM_OF_BITSPERNIBBLE = 4;

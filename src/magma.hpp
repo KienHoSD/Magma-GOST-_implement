@@ -17,8 +17,16 @@ public:
     key_schedule();
   }
 
+  Magma(const std::array<uint8_t, NUM_OF_KEYBYTE> &key_array)
+  {
+    this->key_array = key_array;
+    key_schedule();
+  }
+
   void encrypt(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext);
   void decrypt(const std::vector<uint8_t> &ciphertext, std::vector<uint8_t> &plaintext);
+  void encryptParallel(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext, unsigned int numThreads = 1);
+  void decryptParallel(const std::vector<uint8_t> &ciphertext, std::vector<uint8_t> &plaintext, unsigned int numThreads = 1);
   void set_sbox(const std::vector<std::vector<uint8_t>> &s_box);
 
   ~Magma() {}
@@ -40,7 +48,8 @@ private:
 
   void key_schedule();
   uint32_t f(const uint32_t &Ri, const uint32_t &Ki);
-  void inner_encrypt_decrypt(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, bool is_encrypt);
+  void inner_encrypt_decrypt(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const bool &is_encrypt);
+  void inner_encrypt_decrypt_parallel(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const unsigned int &numThreads, const bool &is_encrypt);
 };
 
 #endif
