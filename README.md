@@ -4,7 +4,6 @@ This project provides an implementation of the **Magma** encryption algorithm, i
 
 ## Table of Contents
 
-- [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Building the Project](#building-the-project)
 - [Usage](#usage)
@@ -14,10 +13,6 @@ This project provides an implementation of the **Magma** encryption algorithm, i
 - [Contributing](#contributing)
 - [License](#license)
 - [Reference](#reference)
-
-## Introduction
-
-Magma is a block cipher that provides strong encryption. This project includes an implementation of the Magma cipher in C++, along with various tests and benchmarks to evaluate its performance.
 
 ## Prerequisites
 
