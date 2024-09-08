@@ -1,5 +1,5 @@
-#include <magma.hpp>
-#include <pad.hpp>
+#include "magma.hpp"
+#include "pad.hpp"
 
 #include <iostream>
 #include <vector>
