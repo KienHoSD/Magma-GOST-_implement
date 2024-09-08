@@ -88,7 +88,7 @@ int main()
   results_encrypt << "Size(Bytes),Time(Microseconds)\n";
   results_decrypt << "Size(Bytes),Time(Microseconds)\n";
 
-  std::cout << "Start benchmark" << std::endl;
+  std::cout << "Start benchmark (may took around 20 minutes)" << std::endl;
   std::cout << "Testing encrypt, decrypt with 7 different file sizes: 2 KB, 10 KB, 20 KB, 50 KB, 100 KB, 500 KB, 2 MB" << std::endl;
 
   for (auto filesize : fileSizes)

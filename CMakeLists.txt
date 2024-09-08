@@ -28,12 +28,12 @@ add_executable(benchmark_magma
     benchmark/benchmark_magma.cpp
 )
 
-# Add the executable target for the binary `testspeed_magma`
+# Add the executable target for the binary `testspeed_singlethread_magma`
 add_executable(testspeed_singlethread_magma
     benchmark/testspeed_singlethread_magma.cpp
 )
 
-# Add the executable target for the binary `testspeed_magma`
+# Add the executable target for the binary `testspeed_multithread_magma`
 add_executable(testspeed_multithread_magma
     benchmark/testspeed_multithread_magma.cpp
 )
@@ -43,3 +43,25 @@ target_link_libraries(test_magma PRIVATE magma_lib)
 target_link_libraries(benchmark_magma PRIVATE magma_lib)
 target_link_libraries(testspeed_singlethread_magma PRIVATE magma_lib)
 target_link_libraries(testspeed_multithread_magma PRIVATE magma_lib)
+
+# Enable testing
+include(CTest)
+
+# Add tests
+add_test(NAME test_magma COMMAND test_magma)
+
+# Custom target to run all tests and print their results
+add_custom_target(run_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --verbose
+    DEPENDS test_magma benchmark_magma testspeed_singlethread_magma testspeed_multithread_magma
+    COMMENT "Running all tests"
+)
+
+# Custom target to run benchmarks and print their results
+add_custom_target(run_benchmarks
+    COMMAND testspeed_singlethread_magma 
+    COMMAND testspeed_multithread_magma
+    COMMAND benchmark_magma
+    DEPENDS testspeed_singlethread_magma testspeed_multithread_magma benchmark_magma
+    COMMENT "Running all benchmarks"
+)
