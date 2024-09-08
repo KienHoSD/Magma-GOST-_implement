@@ -50,8 +50,8 @@ void Magma::inner_encrypt_decrypt(const vector<uint8_t> &input, vector<uint8_t> 
                 + (input[current_index+5] << 16)
                 + (input[current_index+6] << 8)
                 + (input[current_index+7]);
-    uint32_t Li;
-    uint32_t Ri;
+    uint32_t Li=0;
+    uint32_t Ri=0;
     uint32_t Lip1=L0;
     uint32_t Rip1=R0;
 
@@ -105,9 +105,10 @@ void Magma::set_sbox(const vector<vector<uint8_t>> &s_box){
 void Magma::key_schedule()
 {
   for(int i=0;i<NUM_OF_KEYBLOCK;i++){
+    key_block[i] = 0;
     for(int j=0;j<NUM_OF_KEYBLOCKBYTE;j++){
       key_block[i] <<= NUM_OF_BITSPERBYTE;
-      key_block[i] += key_array[i*NUM_OF_KEYBLOCK+j];
+      key_block[i] += key_array[i*NUM_OF_KEYBLOCKBYTE+j];
     }
   }
 }

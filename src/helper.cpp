@@ -7,11 +7,11 @@ using std::reverse;
 
 void string_to_uint8_t_key_array(const std::string &hex_string, std::array<uint8_t, NUM_OF_KEYBYTE> &key_array)
 {
-  for (int i = 0; i < NUM_OF_KEYBYTE; i+=2)
+  for (int i = 0; i < NUM_OF_KEYBYTE; i++)
   {
     try
     {
-      unsigned long value = std::stoul(hex_string.substr(i,2), nullptr, 16); // Convert hex string to unsigned long
+      unsigned long value = std::stoul(hex_string.substr(i*2,2), nullptr, 16); // Convert hex string to unsigned long
       if (value > 0xFF)
       {
         throw std::out_of_range("Hex string value is out of range for uint8_t");
