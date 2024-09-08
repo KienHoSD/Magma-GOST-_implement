@@ -19,7 +19,7 @@ public:
 
   void encrypt(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext);
   void decrypt(const std::vector<uint8_t> &ciphertext, std::vector<uint8_t> &plaintext);
-  void set_sbox(const std::vector<std::vector<uint8_t>> &s_box) {this->s_box = s_box;}
+  void set_sbox(const std::vector<std::vector<uint8_t>> &s_box);
 
   ~Magma() {}
 

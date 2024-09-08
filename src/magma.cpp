@@ -88,6 +88,20 @@ void Magma::decrypt(const vector<uint8_t> &ciphertext, vector<uint8_t> &plaintex
   inner_encrypt_decrypt(ciphertext,plaintext,false);
 }
 
+void Magma::set_sbox(const vector<vector<uint8_t>> &s_box){
+  if(s_box.size() != NUM_OF_HALFBLOCKNIBBLE){
+    throw invalid_argument("Invalid s_box size");
+    return;
+  }
+  for(int i=0;i<NUM_OF_HALFBLOCKNIBBLE;i++){
+    if(s_box[i].size() != 16){
+      throw invalid_argument("Invalid s_box[i] size");
+      return;
+    }
+  }
+  this->s_box = s_box;
+}
+
 void Magma::key_schedule()
 {
   for(int i=0;i<NUM_OF_KEYBLOCK;i++){
