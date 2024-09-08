@@ -1,6 +1,6 @@
 # Magma Implementation
 
-This project provides an implementation of the Magma encryption algorithm, including utilities for testing and benchmarking the algorithm.
+This project provides an implementation of the **Magma** encryption algorithm, including utilities for testing and benchmarking the algorithm. This small project aiming for better understanding of inner-working of **Magma**/**GOST R 34.12-2015**/**GOST 28147-89** block cipher and can be used for others project, using none external library besides C/C++. 
 
 ## Table of Contents
 
@@ -11,7 +11,9 @@ This project provides an implementation of the Magma encryption algorithm, inclu
   - [Testing](#testing)
   - [Benchmarking](#benchmarking)
   - [Using the Library](#using-the-library)
+- [Contributing](#contributing)
 - [License](#license)
+- [Reference](#reference)
 
 ## Introduction
 
@@ -138,6 +140,10 @@ To use the `magma_lib` library in your own project, follow these steps:
    ```
 
    Ensure that you have linked against `magma_lib` and included the correct headers in your project.
+
+## Contributing
+
+Contributions are welcome! Whether it's improving the code, fixing bugs, or adding new features, feel free to contribute to this project.
 
 ## License
 
