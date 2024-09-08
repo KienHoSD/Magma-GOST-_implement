@@ -35,8 +35,8 @@ sudo apt-get install cmake g++ git
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/KienHoSD/Magma-implement.git
-   cd Magma-implement
+   git clone https://github.com/KienHoSD/Magma_implement.git
+   cd Magma_implement
    ```
 
 2. **Create a build directory:**
