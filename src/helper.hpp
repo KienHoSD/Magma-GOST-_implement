@@ -24,6 +24,10 @@ const int NUM_OF_BITSPERHALFBLOCK = 32;
 
 void string_to_uint8_t_key_array(const std::string &hex_string, std::array<uint8_t, NUM_OF_KEYBYTE> &key_array);
 
+void block_to_LR(const std::vector<uint8_t> &input, const size_t &block_index, uint32_t &L, uint32_t &R);
+
+void LR_to_block(std::vector<uint8_t> &output, const size_t &block_index, const uint32_t &L, const uint32_t &R);
+
 uint32_t rot11(uint32_t x);
 
 #endif

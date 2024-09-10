@@ -16,17 +16,17 @@ int main()
   PKCS7 pkcs7;
   string myplain = "the foo in the bar";
   vector<uint8_t> plaintext(myplain.begin(),myplain.end());
-  vector<uint8_t> ciphertext(plaintext.size(),255); 
+  vector<uint8_t> ciphertext; 
 
   pkcs7.pad(plaintext,plaintext, NUM_OF_BLOCKBYTE);
-  ciphertext.resize(plaintext.size()); // resize to the padded size, give more buffer control to the user
-
   magmacipher.encrypt(plaintext,ciphertext);
+  
   for(int i=0;i<ciphertext.size();i++) cout<<static_cast<uint32_t>(ciphertext[i])<<" ";
   cout << '\n';
 
   magmacipher.decrypt(ciphertext,plaintext);
   pkcs7.unpad(plaintext,plaintext, NUM_OF_BLOCKBYTE);
+
   for(int i=0;i<plaintext.size();i++) cout<<plaintext[i];
   cout << '\n';
 }

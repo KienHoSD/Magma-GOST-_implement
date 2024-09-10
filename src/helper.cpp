@@ -29,6 +29,25 @@ void string_to_uint8_t_key_array(const std::string &hex_string, std::array<uint8
   }
 }
 
+void block_to_LR(const std::vector<uint8_t> &input, const size_t &block_index, uint32_t &L, uint32_t &R){
+  L = (input[block_index]   << 24) 
+    + (input[block_index+1] << 16)
+    + (input[block_index+2] << 8)
+    + (input[block_index+3]);
+  R = (input[block_index+4] << 24)
+    + (input[block_index+5] << 16)
+    + (input[block_index+6] << 8)
+    + (input[block_index+7]);
+}
+
+
+void LR_to_block(std::vector<uint8_t> &output, const size_t &block_index, const uint32_t &L, const uint32_t &R){
+  for(int i=0;i<NUM_OF_HALFBLOCKBYTE;i++){
+    output[block_index+i] = L >> (NUM_OF_BITSPERHALFBLOCK - NUM_OF_BITSPERBYTE*(i+1)) & 0xff;
+    output[block_index+i+NUM_OF_HALFBLOCKBYTE] = R >> (NUM_OF_BITSPERHALFBLOCK - NUM_OF_BITSPERBYTE*(i+1)) & 0xff;
+  }
+}
+
 uint32_t rot11(uint32_t x)
 {
   return (x << 11) | (x >> (32 - 11));

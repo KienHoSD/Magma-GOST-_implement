@@ -48,6 +48,7 @@ private:
 
   void key_schedule();
   uint32_t f(const uint32_t &Ri, const uint32_t &Ki);
+  void round_function(uint32_t &L0, uint32_t &R0, const bool &is_encrypt);
   void inner_encrypt_decrypt(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const bool &is_encrypt);
   void inner_encrypt_decrypt_parallel(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const unsigned int &numThreads, const bool &is_encrypt);
 };
