@@ -1,5 +1,5 @@
-#ifndef PAD_HPP
-#define PAD_HPP
+#ifndef __PAD_HPP
+#define __PAD_HPP
 
 #include <vector>
 #include <stdint.h>

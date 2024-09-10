@@ -1,56 +1,26 @@
-#ifndef MAGMA_HPP
-#define MAGMA_HPP
+#ifndef __MAGMA_HPP
+#define __MAGMA_HPP
 
-#include "helper.hpp"
+#include "magma_ecb.hpp"
+#include "magma_cbc.hpp"
 
-class Magma
-{
+class Magma {
 public:
-  Magma(const std::string &key_hex_string)
-  {
-    if (key_hex_string.length() != NUM_OF_KEYBYTE * 2)
-    {
-      throw std::runtime_error("Invalid key length");
-      abort();
-    }
-    string_to_uint8_t_key_array(key_hex_string, key_array);
-    key_schedule();
-  }
+  Magma(const std::string &key_hex_string, const std::string &mode = "ECB", const std::string &iv_hex_string = "");
 
-  Magma(const std::array<uint8_t, NUM_OF_KEYBYTE> &key_array)
-  {
-    this->key_array = key_array;
-    key_schedule();
-  }
+  void change_mode(const std::string &mode, const std::string &iv_hex_string = "");
+  void set_sbox(const std::vector<std::vector<uint8_t>> &s_box);
 
+  template <typename T>
+  void set_key(const T &key);
+  template <typename T>
+  void set_iv(const T &iv);
   void encrypt(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext);
   void decrypt(const std::vector<uint8_t> &ciphertext, std::vector<uint8_t> &plaintext);
   void encryptParallel(const std::vector<uint8_t> &plaintext, std::vector<uint8_t> &ciphertext, unsigned int numThreads = 1);
   void decryptParallel(const std::vector<uint8_t> &ciphertext, std::vector<uint8_t> &plaintext, unsigned int numThreads = 1);
-  void set_sbox(const std::vector<std::vector<uint8_t>> &s_box);
-
-  ~Magma() {}
-
 private:
-  std::array<uint8_t, NUM_OF_BLOCKBYTE> block_array;
-  std::array<uint8_t, NUM_OF_KEYBYTE> key_array;
-  std::array<uint32_t, NUM_OF_KEYBLOCK> key_block;
-  std::vector<std::vector<uint8_t>> s_box = {
-    {0xC, 0x4, 0x6, 0x2, 0xA, 0x5, 0xB, 0x9, 0xE, 0x8, 0xD, 0x7, 0x0, 0x3, 0xF, 0x1},
-    {0x6, 0x8, 0x2, 0x3, 0x9, 0xA, 0x5, 0xC, 0x1, 0xE, 0x4, 0x7, 0xB, 0xD, 0x0, 0xF},
-    {0xB, 0x3, 0x5, 0x8, 0x2, 0xF, 0xA, 0xD, 0xE, 0x1, 0x7, 0x4, 0xC, 0x9, 0x6, 0x0},
-    {0xC, 0x8, 0x2, 0x1, 0xD, 0x4, 0xF, 0x6, 0x7, 0x0, 0xA, 0x5, 0x3, 0xE, 0x9, 0xB},
-    {0x7, 0xF, 0x5, 0xA, 0x8, 0x1, 0x6, 0xD, 0x0, 0x9, 0x3, 0xE, 0xB, 0x4, 0x2, 0xC},
-    {0x5, 0xD, 0xF, 0x6, 0x9, 0x2, 0xC, 0xA, 0xB, 0x7, 0x8, 0x1, 0x4, 0x3, 0xE, 0x0},
-    {0x8, 0xE, 0x2, 0x5, 0x6, 0x9, 0x1, 0xC, 0xF, 0x4, 0xB, 0x0, 0xD, 0xA, 0x3, 0x7},
-    {0x1, 0x7, 0xE, 0xD, 0x0, 0x5, 0x8, 0x3, 0x4, 0xF, 0xA, 0x6, 0x9, 0xC, 0xB, 0x2}
-  };
-
-  void key_schedule();
-  uint32_t f(const uint32_t &Ri, const uint32_t &Ki);
-  void round_function(uint32_t &L0, uint32_t &R0, const bool &is_encrypt);
-  void inner_encrypt_decrypt(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const bool &is_encrypt);
-  void inner_encrypt_decrypt_parallel(const std::vector<uint8_t> &input, std::vector<uint8_t> &output, const unsigned int &numThreads, const bool &is_encrypt);
+  MagmaBase *_magma;
 };
 
 #endif

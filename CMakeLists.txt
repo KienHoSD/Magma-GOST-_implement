@@ -10,8 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add the library target for the library
 add_library(magma_lib
+    src/magma_utils.cpp
+    src/magma_base.cpp
+    src/magma_ecb.cpp
+    src/magma_cbc.cpp
     src/magma.cpp
-    src/helper.cpp
     src/pad.cpp
 )
 
