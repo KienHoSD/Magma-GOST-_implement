@@ -1,6 +1,6 @@
 # Magma Implementation
 
-This project provides an implementation of the **Magma** encryption algorithm, including utilities for testing and benchmarking the algorithm. This small project aiming for better understanding of inner-working of **Magma**/**GOST R 34.12-2015**/**GOST 28147-89** block cipher and can be used for others project, using none external library besides C/C++. 
+This project provides an implementation of the **Magma** encryption algorithm, including utilities for testing and benchmarking the algorithm. This small project aiming for better understanding of inner-working of **Magma**/**GOST R 34.12-2015**/**GOST 28147-89** block cipher and can be used for others project, using none external library besides C/C++.
 
 ## Table of Contents
 
@@ -117,20 +117,24 @@ To use the `magma_lib` library in your own project, follow these steps:
    #include <iostream>
 
    int main() {
-       std::string key = "c54891ee9707aabbd126c79fd47ebb2279ef00473776b219ca3bcd8d06f8cce1";
-       Magma magmacipher(key);
+      std::string key = "c54891ee9707aabbd126c79fd47ebb2279ef00473776b219ca3bcd8d06f8cce1";
+      Magma magmacipher(key,"ECB");
+      
+      // Or CBC mode
+      // std::string iv = "2a2e9f5ad0f8e2d3";
+      // Magma magmacipher(key,"CBC",iv)
 
-       std::vector<uint8_t> plaintext = {/* your data here */};
-       std::vector<uint8_t> ciphertext(plaintext.size());
+      std::vector<uint8_t> plaintext = {/* your data here */};
+      std::vector<uint8_t> ciphertext(plaintext.size());
 
-       magmacipher.encrypt(plaintext, ciphertext);
+      magmacipher.encrypt(plaintext, ciphertext);
 
-       std::vector<uint8_t> decrypted(plaintext.size());
-       magmacipher.decrypt(ciphertext, decrypted);
+      std::vector<uint8_t> decrypted(plaintext.size());
+      magmacipher.decrypt(ciphertext, decrypted);
 
-       // Output results
-       std::cout << "Encryption and decryption completed." << std::endl;
-       return 0;
+      // Output results
+      std::cout << "Encryption and decryption completed." << std::endl;
+      return 0;
    }
    ```
 
@@ -146,5 +150,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Reference
 
-- [GOST 28147-89](https://en.wikipedia.org/wiki/GOST_(block_cipher))
-
+- [GOST 28147-89](<https://en.wikipedia.org/wiki/GOST_(block_cipher)>)
