@@ -14,6 +14,16 @@ This project provides an implementation of the **Magma** encryption algorithm, i
 - [License](#license)
 - [Reference](#reference)
 
+## Notes
+
+- Currently support ECB and CBC mode of operation.
+- Support 64-bit block size and 256-bit key size.
+- Can encrypt buffer with arbitrary size (padding if needed).
+- Need to provide key and mode of operation (default is ECB) and IV for non-ECB mode.
+- ECB mode do have parallel encryption/decryption.
+- Is not suitable for production use, only for educational purpose.
+- Need further testing and optimization.
+
 ## Prerequisites
 
 To build and run this project, you need:
