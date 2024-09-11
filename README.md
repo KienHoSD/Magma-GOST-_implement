@@ -4,6 +4,7 @@ This project provides an implementation of the **Magma** encryption algorithm, i
 
 ## Table of Contents
 
+- [Notes](#notes)
 - [Prerequisites](#prerequisites)
 - [Building the Project](#building-the-project)
 - [Usage](#usage)

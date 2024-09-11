@@ -29,15 +29,22 @@ int main()
   srand(std::time(nullptr));
 
   std::vector<uint8_t> plain(plainLength);
-  std::vector<uint8_t> out(plainLength);
+  std::vector<uint8_t> ciphertext(plainLength);
+  std::vector<uint8_t> recover(plainLength);
 
   Magma magmacipher(key);
 
-  unsigned long start = getMicroseconds();
-  magmacipher.encryptParallel(plain, out, numThreads);
-  unsigned long delta = getMicroseconds() - start;
+  unsigned long startenc = getMicroseconds();
+  magmacipher.encryptParallel(plain, ciphertext, numThreads);
+  unsigned long deltaenc = getMicroseconds() - startenc;
+  double speedenc = (double)(megabytesCount * numThreads) / deltaenc * MICROSECONDS;
+  printf("Encrypt speed: %.2f Mb/s\n", speedenc);
 
-  double speed = (double)(megabytesCount * numThreads) / delta * MICROSECONDS;
-  printf("%.2f Mb/s\n", speed);
+  unsigned long startdec = getMicroseconds();
+  magmacipher.decryptParallel(ciphertext, recover, numThreads);
+  unsigned long deltadec = getMicroseconds() - startdec;
+  double speeddec = (double)(megabytesCount * numThreads) / deltadec * MICROSECONDS;
+  printf("Decrypt speed: %.2f Mb/s\n", speeddec);
+
   return 0;
 }
